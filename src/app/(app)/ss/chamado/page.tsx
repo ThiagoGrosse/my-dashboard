@@ -15,10 +15,10 @@ import {SwitchForm} from "@/components/forms/switch-form";
 import {ComboboxForm} from "@/components/forms/combobox-form";
 import {TextareaForm} from "@/components/forms/textarea-form";
 import {useToast} from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
+import {useRouter} from "next/navigation";
 
 const FormSchema = z.object({
-    serviceRequestDescription: z.string().min(10, {
+    serviceRequestDescription: z.string().max(100).min(10, {
         message: "Este campo precisa conter no mínimo 10 caracteres.",
     }),
     typeOfRequest: z.string().min(1, {message: "Campo obrigatório! Selecione uma opção"}),
@@ -42,7 +42,7 @@ const optionsCategory = DataCategory;
 export default function IncluedCalledPage() {
     const {toast} = useToast();
     const router = useRouter();
-    
+
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
@@ -78,6 +78,7 @@ export default function IncluedCalledPage() {
             <div className="py-10 px-5 mb-8">
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-14">
+                        {/* Descrição do chamado */}
                         <InputForm
                             control={form.control}
                             isDisabled={false}
@@ -88,6 +89,7 @@ export default function IncluedCalledPage() {
                             isAutoComplete="off"
                         />
 
+                        {/* Tipo de solicitação */}
                         <SelectForm
                             control={form.control}
                             label="Tipo de Solicitação*"
@@ -96,6 +98,7 @@ export default function IncluedCalledPage() {
                             options={optionsTypeOfRequest}
                         />
 
+                        {/* Solicitado por */}
                         <InputForm
                             control={form.control}
                             isDisabled={false}
@@ -106,6 +109,7 @@ export default function IncluedCalledPage() {
                             isAutoComplete="off"
                         />
 
+                        {/* Patrimônio inoperante */}
                         <SwitchForm
                             control={form.control}
                             label="Patrimônio inoperante"
@@ -113,6 +117,7 @@ export default function IncluedCalledPage() {
                             description="Selecione caso o patrimônio esteja inoperante"
                         />
 
+                        {/* Urgência */}
                         <SelectForm
                             control={form.control}
                             label="Urgência*"
@@ -121,6 +126,7 @@ export default function IncluedCalledPage() {
                             options={optionsUrgency}
                         />
 
+                        {/* Solicitante */}
                         <ComboboxForm
                             control={form.control}
                             label="Solicitante*"
@@ -130,6 +136,7 @@ export default function IncluedCalledPage() {
                             placeholder="Informe um solicitante"
                         />
 
+                        {/* Localização */}
                         <ComboboxForm
                             control={form.control}
                             label="Localização"
@@ -139,6 +146,7 @@ export default function IncluedCalledPage() {
                             placeholder="Informe uma localização"
                         />
 
+                        {/* Patrimônio */}
                         <ComboboxForm
                             control={form.control}
                             label="Patrimônio"
@@ -148,6 +156,7 @@ export default function IncluedCalledPage() {
                             placeholder="Informe um patrimônio"
                         />
 
+                        {/* Categorias */}
                         <SelectForm
                             control={form.control}
                             label="Categorias*"
@@ -156,10 +165,11 @@ export default function IncluedCalledPage() {
                             options={optionsCategory}
                         />
 
+                        {/* Descrição da solicitação */}
                         <TextareaForm
                             control={form.control}
                             name="servicesToBePerformed"
-                            label="Descrição da solicitação"
+                            label="Descrição da solicitação*"
                             isDisabled={false}
                             isAutoComplete="off"
                             placeholder="Descreva sua solicitação"
@@ -173,7 +183,7 @@ export default function IncluedCalledPage() {
                             </Button>
                             <Button type="submit">
                                 <Check color="#00ff00" />
-                                Enviar
+                                Salvar
                             </Button>
                         </div>
                     </form>

@@ -19,7 +19,7 @@ import {TextareaForm} from "@/components/forms/textarea-form";
 import {useToast} from "@/hooks/use-toast";
 
 const FormSchema = z.object({
-    serviceRequestDescription: z.string().min(10, {
+    serviceRequestDescription: z.string().max(100).min(10, {
         message: "Este campo precisa conter no mínimo 10 caracteres.",
     }),
     typeOfRequest: z.string().min(1, {message: "Campo obrigatório! Selecione uma opção"}),

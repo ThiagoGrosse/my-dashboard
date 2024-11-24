@@ -1,34 +1,47 @@
-"use client";
-
+import {
+    Breadcrumb,
+    BreadcrumbItem,
+    BreadcrumbLink,
+    BreadcrumbList,
+    BreadcrumbPage,
+    BreadcrumbSeparator,
+} from "@/components/ui/breadcrumb";
 import {usePathname} from "next/navigation";
-import Link from "next/link";
 
-export default function Breadcrumb() {
+export default function MyBreadcrumb() {
     const pathname = usePathname();
-    const segments = pathname.split("/").filter((segment) => segment);
+
+    const segments = pathname.split("/").filter(Boolean);
 
     return (
-        <nav aria-label="breadcrumb" className="flex items-center space-x-2 text-sm text-gray-600">
-            <Link href="/" className="text-blue-500 hover:underline">
-                Home
-            </Link>
-            {segments.map((segment, index) => {
-                const isLast = index === segments.length - 1;
-                const path = `/${segments.slice(0, index + 1).join("/")}`;
+        <Breadcrumb>
+            <BreadcrumbList>
+                <BreadcrumbItem>
+                    <BreadcrumbLink href="/">Home</BreadcrumbLink>
+                </BreadcrumbItem>
+                {segments.length > 0 && <BreadcrumbSeparator />}
+                {segments.map((segment, index) => {
+                    const isLast = index === segments.length - 1;
+                    const href = "/" + segments.slice(0, index + 1).join("/");
 
-                return (
-                    <div key={path} className="flex items-center space-x-2">
-                        <span className="text-gray-400">/</span>
-                        {isLast ? (
-                            <span className="text-gray-500 capitalize">{decodeURIComponent(segment)}</span>
-                        ) : (
-                            <Link href={path} className="text-blue-500 hover:underline capitalize">
-                                {decodeURIComponent(segment)}
-                            </Link>
-                        )}
-                    </div>
-                );
-            })}
-        </nav>
+                    return (
+                        <div key={index} className="flex items-center">
+                            <BreadcrumbItem>
+                                {isLast ? (
+                                    <BreadcrumbPage>{capitalize(segment)}</BreadcrumbPage>
+                                ) : (
+                                    <BreadcrumbLink href={href}>{capitalize(segment)}</BreadcrumbLink>
+                                )}
+                            </BreadcrumbItem>
+                            {!isLast && <BreadcrumbSeparator />}
+                        </div>
+                    );
+                })}
+            </BreadcrumbList>
+        </Breadcrumb>
     );
+}
+
+function capitalize(text: string) {
+    return text.charAt(0).toUpperCase() + text.slice(1);
 }

@@ -68,6 +68,20 @@ export const DataEvolitionInitial = [
     {value: "3", label: "Aguardando Técnico"},
 ];
 
+export const DataStatusSS = [
+    {value: "1", label: "Abertas"},
+    {value: "2", label: "Encerradas"},
+    {value: "3", label: "Encerradas à receber"},
+    {value: "4", label: "Reabertas"},
+    {value: "5", label: "Excluídas"},
+    {value: "6", label: "Canceladas"},
+    {value: "7", label: "Não aprovadas na triagem"},
+    {value: "8", label: "Agendadas a vencer"},
+    {value: "9", label: "Somente abertas no período"},
+    {value: "10", label: "Todas com integração no período"},
+    {value: "11", label: "Todas"},
+];
+
 export const DataSS = [
     {
         idSS: 6522002,
