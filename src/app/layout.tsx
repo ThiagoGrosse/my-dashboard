@@ -6,7 +6,7 @@ import { SidebarProvider } from "@/components/sidebar-provider";
 import Sidebar from "@/components/sidebar/sidebar";
 import Header from "@/components/header/header";
 import Footer from "@/components/footer/footer";
-import { ThemeToggle } from "@/components/theme-toggle";
+import { ThemeToggle } from "@/components/theme-toggle";import {Toaster} from "@/components/ui/toaster";
 
 const geistSans = localFont({
     src: "./fonts/GeistVF.woff",
@@ -39,6 +39,7 @@ export default function RootLayout({
                             <div className="flex-1 flex flex-col">
                                 <Header />
                                 <main className="absolute z-10 top-36 w-full flex-1 overflow-y-scroll">{children}</main>
+                                <Toaster />
                                 <Footer />
                                 <div className="fixed bottom-14 right-5 z-50">
                                     <ThemeToggle />

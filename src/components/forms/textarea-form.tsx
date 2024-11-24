@@ -12,6 +12,7 @@ type Props<T extends FieldValues> = {
     placeholder?: string;
     isDisabled: boolean;
     isAutoComplete: string;
+    rows?:number;
 };
 
 export function TextareaForm<T extends FieldValues>({
@@ -22,6 +23,7 @@ export function TextareaForm<T extends FieldValues>({
     placeholder,
     isDisabled,
     isAutoComplete,
+    rows=5,
 }: Props<T>) {
     return (
         <FormField
@@ -36,6 +38,7 @@ export function TextareaForm<T extends FieldValues>({
                             className="resize-y"
                             disabled={isDisabled}
                             autoComplete={isAutoComplete}
+                            rows={rows}
                             {...field}
                         />
                     </FormControl>

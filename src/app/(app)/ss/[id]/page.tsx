@@ -1,5 +1,8 @@
 "use client";
 
+import TitlePage from "@/components/titlePage/title-page";
+import {SS1234} from "@/data/dataSS";
+import {useParams} from "next/navigation";
 import {zodResolver} from "@hookform/resolvers/zod";
 import {useForm} from "react-hook-form";
 import {z} from "zod";
@@ -7,7 +10,6 @@ import {z} from "zod";
 import {Button} from "@/components/ui/button";
 import {Form} from "@/components/ui/form";
 import InputForm from "@/components/forms/input-form";
-import TitlePage from "@/components/titlePage/title-page";
 import SelectForm from "@/components/forms/select-form";
 import {Check, Undo2} from "lucide-react";
 import {DataApplicant, DataCategory, DataHeritage, DataLocation, DataTypeSS, DataTypeUrgency} from "@/data/optionsForm";
@@ -15,7 +17,6 @@ import {SwitchForm} from "@/components/forms/switch-form";
 import {ComboboxForm} from "@/components/forms/combobox-form";
 import {TextareaForm} from "@/components/forms/textarea-form";
 import {useToast} from "@/hooks/use-toast";
-import { useRouter } from "next/navigation";
 
 const FormSchema = z.object({
     serviceRequestDescription: z.string().min(10, {
@@ -38,44 +39,45 @@ const optionsRequest = DataApplicant;
 const optionsLocation = DataLocation;
 const optionsHeritage = DataHeritage;
 const optionsCategory = DataCategory;
+const dataSS = SS1234;
 
-export default function IncluedCalledPage() {
+export default function SSpage() {
     const {toast} = useToast();
-    const router = useRouter();
-    
+    const {id} = useParams();
+
     const form = useForm<z.infer<typeof FormSchema>>({
         resolver: zodResolver(FormSchema),
         defaultValues: {
-            serviceRequestDescription: "",
-            typeOfRequest: "",
-            requestBy: "",
-            deadHeritage: false,
-            urgency: "",
-            requester: "",
-            location: "",
-            heritage: "",
-            category: "",
-            servicesToBePerformed: "",
+            serviceRequestDescription: dataSS.serviceRequestDescription,
+            typeOfRequest: dataSS.typeOfRequest,
+            requestBy: dataSS.requestBy,
+            deadHeritage: dataSS.deadHeritage,
+            urgency: dataSS.urgency,
+            requester: dataSS.requester,
+            location: dataSS.location,
+            heritage: dataSS.heritage,
+            category: dataSS.category,
+            servicesToBePerformed: dataSS.servicesToBePerformed,
         },
     });
 
     function onSubmit(data: z.infer<typeof FormSchema>) {
-        const chamadoId = "12345";
-
         toast({
-            title: "Chamado incluído com sucesso!",
-            description: "O chamado foi incluído com sucesso.",
+            title: "Chamado alterado com sucesso!",
+            description: "O chamado foi alterado com sucesso.",
             duration: 2000,
         });
 
-        router.push(`/ss/${chamadoId}`);
         console.log(data);
     }
 
     return (
         <div className="flex flex-col">
-            <TitlePage title="Incluir Chamado" />
+            <TitlePage title={`${dataSS.id} - ${dataSS.serviceRequestDescription}`} />
             <div className="py-10 px-5 mb-8">
+                <h1 className="font-bold text-lg leading-3">Detalhes da SS: {id}</h1>
+                <p className="text-xs text-gray-400">{dataSS.serviceRequestDescription}</p>
+
                 <Form {...form}>
                     <form onSubmit={form.handleSubmit(onSubmit)} className="space-y-14">
                         <InputForm
@@ -128,6 +130,7 @@ export default function IncluedCalledPage() {
                             description="Informe um solicitante"
                             options={optionsRequest}
                             placeholder="Informe um solicitante"
+                            isDisabled={true}
                         />
 
                         <ComboboxForm
@@ -137,6 +140,7 @@ export default function IncluedCalledPage() {
                             description="Selecione uma localização"
                             options={optionsLocation}
                             placeholder="Informe uma localização"
+                            isDisabled={true}
                         />
 
                         <ComboboxForm
@@ -146,6 +150,7 @@ export default function IncluedCalledPage() {
                             description="Selecione o patrimônio"
                             options={optionsHeritage}
                             placeholder="Informe um patrimônio"
+                            isDisabled={true}
                         />
 
                         <SelectForm
