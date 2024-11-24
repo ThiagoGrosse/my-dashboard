@@ -5,6 +5,8 @@ import MenuSecond from "./sidebar-menu-nivel-2";
 import Link from "next/link";
 import {ChevronDown, ChevronUp} from "lucide-react";
 import {useState} from "react";
+import {useSidebar} from "@/components/sidebar-provider";
+import MyTooltip from "@/components/tooltip/tooltip";
 
 type Props = {
     items: MenuItem;
@@ -12,33 +14,42 @@ type Props = {
 
 export default function MenuFirst({items}: Props) {
     const [isMenuOpen, setIsMenuOpen] = useState(false);
+    const {toggleSidebar} = useSidebar();
 
     const toggleSubmenu = () => {
         setIsMenuOpen(!isMenuOpen);
     };
 
+    const toggleSidebarMenu = () => {
+        toggleSidebar(false);
+    };
+
     return (
         <li>
             {!items.subMenu && (
-                <button onClick={toggleSubmenu} className="w-full text-left px-4 py-2 rounded-md">
-                    <Link href={items.url} className="flex gap-2 items-center">
-                        <items.icon />
-                        {items.title}
-                    </Link>
-                </button>
+                <MyTooltip label={items.label}>
+                    <div className="w-full text-left px-4 py-2 rounded-md">
+                        <Link href={items.url} className="flex gap-2 items-center" onClick={toggleSidebarMenu}>
+                            <items.icon />
+                            {items.title}
+                        </Link>
+                    </div>
+                </MyTooltip>
             )}
 
             {items.subMenu && (
                 <div>
-                    <button onClick={toggleSubmenu} className="w-full text-left px-4 py-2 rounded-md">
-                        <div className="flex gap-2 justify-between">
-                            <div className="flex items-center gap-2">
-                                <items.icon />
-                                {items.title}
+                    <MyTooltip label={items.label}>
+                        <button onClick={toggleSubmenu} className="w-full text-left px-4 py-2 rounded-md">
+                            <div className="flex gap-2 justify-between">
+                                <div className="flex items-center gap-2">
+                                    <items.icon />
+                                    {items.title}
+                                </div>
+                                {isMenuOpen ? <ChevronUp /> : <ChevronDown />}
                             </div>
-                            {isMenuOpen ? <ChevronUp /> : <ChevronDown />}
-                        </div>
-                    </button>
+                        </button>
+                    </MyTooltip>
                     <ul
                         className={`${
                             isMenuOpen ? "max-h-full opacity-100" : "max-h-0 opacity-0"
